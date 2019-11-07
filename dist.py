@@ -13,6 +13,7 @@ from lib.theano_utils import floatX, sharedX
 
 import net
 from net import L, Output
+from functools import reduce
 
 def castFloatX(x):
   return T.cast(x, theano.config.floatX)
@@ -312,7 +313,7 @@ class MultiDistribution(Distribution):
         known_nicknames = "\n".join('\t{}\t{}'.format(nick, t.__name__)
                                     for nick, t in mapping)
         e = 'Unknown Distribution nickname "{}". Known Distributions:\n{}'
-        print e.format(dist_nickname, known_nicknames)
+        print(e.format(dist_nickname, known_nicknames))
         raise
       dist = dist_type(self.num, dist_params, internal_rng=self.internal_rng)
       dists.append(dist)
@@ -342,8 +343,8 @@ class MultiDistribution(Distribution):
         op = getattr(d, op_name)
       except NotImplementedError:
         if skip_unimplemented:
-          print 'Warning: op "%s" not implemented for ' \
-                'distribution: %s; skipping' % (op_name, d)
+          print('Warning: op "%s" not implemented for ' \
+                'distribution: %s; skipping' % (op_name, d))
           continue
         else:
           raise
